@@ -19,11 +19,6 @@ class Product(models.Model):
         return Product.objects.all()
 
     @staticmethod
-    def get_no_of_products_byCategory():
-        return Product.objects.values('category_id').annotate(mycount = Count('category_id'))
-        #return Product.objects.values(category=category_id)
-      
-    @staticmethod
     def get_products_by_id(ids):
         return Product.objects.filter(id__in =ids)
 

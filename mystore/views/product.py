@@ -38,7 +38,6 @@ class Product(View):
 
 
 def mystore(request):
-    count= pd.get_no_of_products_byCategory()
     cart = request.session.get('cart')
     if not cart:
         request.session['cart'] = {}
@@ -49,9 +48,6 @@ def mystore(request):
         products = pd.get_all_products_by_categoryid(categoryID)
     else:
         products = pd.get_all_products()
-    data = {}
-    data['products'] = products
-    data['categories'] = categories
-    data['count']=count
+    data = {'products':products, 'categories':categories}
     print('you are : ', request.session.get('username'))
     return render(request, 'product.html', data)
