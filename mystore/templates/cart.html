@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load cart %}
+{% load custom_filter %}
+<div class="container">
+   <div class="border rounded p-4 m-4">
+        <p class="display-8 pl-4 ml-2 ">My Cart</p>
+        <hr>
+        <table class="table" style="text-align:center">
+            <thead>
+                <tr>
+                    <th>Srno.</th>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                {% for product in products %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td><img style="height: 80px;" class="rounded-circle" src="{{product.image.url}}" alt=""></td>
+                    <td>{{product.name}}</td>
+                    <td>{{product.price|currency}}</td>
+                    <td><div class="card-footer p-0 no-gutters" >
+
+    						{% if product|is_in_cart:request.session.cart %}
+    						<div class="row no-gutters" >
+    							<form action="/#{{product.id}}" class="col-2 " method="post">
+    								{% csrf_token %}
+    								<input hidden type="text" name='product' value='{{product.id}}'>
+    								<input hidden type="text" name='remove' value='True'>
+    								<input type="submit" value=" - " class="btn btn-block btn-light border-right" style="background-color:rgb(110, 253, 234);">
+    							</form>
+    							<div class="text-center col">{{product|cart_quantity:request.session.cart}} <i class="fas fa-cart-arrow-down"></i></div>
+    							<form action="/#{{product.id}}" class="col-2 " method="post">
+    								{% csrf_token %}
+    								<input hidden type="text" name='product' value='{{product.id}}'>
+									<input type="submit" value=" + " class="btn btn-block btn-light border-left" style="background-color:rgb(66, 235, 212);">
+									
+    							</form>
+    						</div>
+    						{% else %}
+      						<form action="/#{{product.id}}" method="POST" class="btn-block">
+      							{% csrf_token %}
+      							<input hidden type="text" name='product' value='{{product.id}}'>
+      							<input type="submit" class="float-right btn btn-light  form-control"
+      								value="Add To Cart" >
+      						</form>
+    						{% endif %}
+
+    					</div></td>
+                    <td>{{product|price_total:request.session.cart|currency}}</td>
+                </tr>
+
+                {% endfor %}
+               
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <th colspan="4"></th>
+                    <th class="" colspan="">Total</th>
+                    <th>{{products|total_cart_price:request.session.cart|currency}}</th>
+                </tr>
+            </tfoot>
+        </table>
+        <hr>
+        <div class="m-3 p-3">
+            <a href="/checkout" class="btn btn-outline-info border rounded  col-lg-3 float-right">Checkout</a>
+        </div>
+   </div>
+</div>
+
+
+
+{% endblock %}

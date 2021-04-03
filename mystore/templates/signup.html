@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+  {% block content %}
+
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/login.css' %}"/>
+  <div class="register-photo">
+    <div class="form-container">
+        <div class="image-holder"></div>
+        <form action="/signup" method="POST">
+
+            {% csrf_token %}
+
+            {% if error%}
+            <div class="alert alert-danger" role="alert">
+                {{error}}
+            </div>
+            {% endif %}
+            <h2 class="text-center">Create an account</h2>
+             <!-- username -->
+            <div class="form-group">
+                <input required type="username"
+                 name="username" id=""
+                value="{{values.username}}"
+                class=" form-control-sm form-control" placeholder="Username">
+            </div>
+             <!-- phone -->
+            <div class="form-group">
+                <input type="text" name="phone"
+                id="" class="form-control form-control-sm"
+                value="{{values.phone}}"
+                placeholder="Phone No."
+                >
+            </div>
+             <!-- password -->
+            <div class="form-group">
+                <input type="password"
+                name="password"
+                id=""
+                 class="form-control form-control-sm" placeholder="Password">
+            </div>
+            <!-- Captcha -->
+            <div class="form-group">
+                <div class="g-recaptcha" data-sitekey="6Lcb3h4aAAAAABHRWh6AsdHk6lvGIl9zHSnTbX8N"></div>
+            </div>
+            <!-- submit -->
+            <div class="form-group"><button class="btn btn-info btn-block" type="submit">Submit</button></div>
+            <p>Already have an account ?<a href="/login"> <br> Login</a> here</p>
+        </form>
+    </div>
+</div>				                            
+  {% endblock %}

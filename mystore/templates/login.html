@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+  {% block content %}
+
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/login.css' %}"/>
+  <div class="register-photo">
+    <div class="form-container">
+        <div class="image-holder"></div>
+        <form action="/login" method="POST">
+
+            {% csrf_token %}
+
+            {% if error%}
+            <div class="alert alert-danger" role="alert">
+                {{error}}
+            </div>
+            {% endif %}
+            <h2 class="text-center">Login</h2>
+            <div class="form-group">
+                <input required type="username"
+                 name="username" id=""
+                value="{{values.username}}"
+                class=" form-control-sm form-control" placeholder="Username">
+            </div>
+            <div class="form-group">
+                <input type="password"
+                name="password"
+                id=""
+                 class="form-control form-control-sm" placeholder="Password">
+            </div>
+            
+            <div class="form-group"><button class="btn btn-info btn-block" type="submit">Login</button></div>
+        </form>
+    </div>
+</div>		
+	                            
+  {% endblock %}
